@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbox</title>
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById('userInput').value;
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: userMessage})
+            });
+            const data = await response.json();
+            document.getElementById('chatLog').innerHTML += `<p>You: ${userMessage}</p>`;
+            document.getElementById('chatLog').innerHTML += `<p>Bot: ${data.response}</p>`;
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</head>
+<style>
+    body {
+        background-color: darkgray;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: darkred;
+        font-weight: bold;
+        
+    }
+
+    #userInput { 
+            width: 300px;
+            height: 50px;
+            background-color: grey;
+            font-size: 20px;
+            
+         }
+
+    button {
+        background-color: yellow;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 3px;
+    }
+    
+    #chatlog {
+        color: white
+    }
+
+    #title {
+        font-size: 100px;
+        text-decoration: underline;
+    }
+</style>
+<body>
+    <div id="title">ASK ME ANYTHING</div>
+    <div id="chatLog"></div>
+    <input type="text" id="userInput" placeholder="Type your message here">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
